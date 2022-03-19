@@ -1,10 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/shorten', function(req, res) {
-  const url = req.body.url;
-
-  // add database logic 
-
-  res.send({ url: url, short: "1qa3YZX"});
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('index');
 });
+
+router.get('/shorten', function(req, res) {
+  res.render('shorten');
+});
+
+router.get('/:url', function(req, res) {
+  res.render('redirect', { url: req.params.url });
+});
+
+module.exports = router;
