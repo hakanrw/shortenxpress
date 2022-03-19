@@ -4,5 +4,31 @@ block content
   h1 shorten
   p shorten your URLs here
   input(type='text' id='url' placeholder='url to shorten')
-  input(type='button' id='submit' value='shorten')
+  input(type='button' id='button' value='shorten')
   p(id='message') 
+
+  script. 
+    const button = document.getElementById("button");
+    const message = document.getElementById("message");
+    const urlInput = document.getElementById("url");
+    
+    button.addEventListener("click", () => {
+      message.innerHTML = "sending request...";
+      const url = urlInput.value;
+
+      fetch("/api/shorten", {
+        method: "POST",
+        body: JSON.stringify({ url }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then(response => response.json())
+        .then(json => {
+          console.log(json);
+          message.innerHTML = `url shortened to http://${window.location.host}/${json.short}`
+        })
+        .catch(err => {
+          console.log('request failed', err);
+          message.innerHTML = "request failed.";
+        })
+    });
