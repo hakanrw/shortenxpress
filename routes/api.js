@@ -24,10 +24,12 @@ function validURL(str) {
 }
 
 router.post('/shorten', async function(req, res, next) {
-  const url = req.body.url;
+  let url = req.body.url;
 
   if (typeof(url) !== "string" || url.length > 128 || !validURL(url)) return next(createError(400));
-
+  url = url.trim();
+  if (!url.startsWith("http")) url = "http://" + url;
+  
   const full = await urls.create({
     short: randomString(5),
     full: url,
@@ -41,11 +43,11 @@ router.post('/shorten', async function(req, res, next) {
 
 });
 
-router.post('/extract', async function(req, res, next) {
-  const url = req.body.url;
-  
-  if (typeof(url) !== "string" || url.length !== 5) return next(createError(400));
+router.get('/extract', async function(req, res, next) {
+  let url = req.query.url;
 
+  if (typeof(url) !== "string" || url.length !== 5) return next(createError(400));
+  
   const full = await urls.findOne({ where: { short: url }});
   if (full === null) return next(createError(404));
 
