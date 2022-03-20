@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
   const URL = sequelize.define("url", {
     id: {
-      type: Sequelize.INTGER,
+      type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    shortened: Sequelize.STRING,
+    short: Sequelize.STRING,
     full: Sequelize.STRING,
     date: Sequelize.DATE,
   });
