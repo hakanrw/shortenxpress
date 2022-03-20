@@ -6,13 +6,19 @@ block content
   input(type='text' id='url' placeholder='url to shorten')
   input(type='button' id='button' value='shorten')
   p(id='message') 
+  input(type='button' id='copy', hidden value='copy link')
 
   script. 
     const button = document.getElementById("button");
     const message = document.getElementById("message");
     const urlInput = document.getElementById("url");
-    
+    let copy = document.getElementById("copy");
+
     button.addEventListener("click", () => {
+      let newcopy = copy.cloneNode(true);
+      copy.parentNode.replaceChild(newcopy, copy);
+      copy = newcopy;
+
       message.innerHTML = "sending request...";
       const url = urlInput.value;
 
@@ -25,7 +31,13 @@ block content
       }).then(response => response.json())
         .then(json => {
           console.log(json);
-          message.innerHTML = `url shortened to http://${window.location.host}/${json.short}`
+          let finalUrl = `http://${window.location.host}/${json.short}`;
+          message.innerHTML = `url shortened to ${finalUrl}`; 
+          copy.hidden = false;
+          copy.addEventListener("click", () => {
+            navigator.clipboard.writeText(finalUrl);
+          });
+
         })
         .catch(err => {
           console.log('request failed', err);
