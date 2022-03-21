@@ -3,3 +3,9 @@
 # shortenxpress
 
 URL shortener app built with Express.js, Jade and Sequelize (SQLite3)
+
+# development
+
+- install the necessary packages with `npm install`
+- start the application with `npm start`
+- launch `localhost:3000/shorten` on your browser
