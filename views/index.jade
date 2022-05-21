@@ -2,4 +2,18 @@ extends layout
 
 block content
   h1 shortenxpress
-  p shorten your URLs with relative ease.
+  div(id="torso")
+    p shorten your URLs with relative ease.
+    div(style="height: 50px")
+    input(type='button' id='shorten' value='shorten url')
+    input(type='button' id='contact' value='contact')
+
+  script.
+    const shorten = document.getElementById("shorten");
+    const contact = document.getElementById("contact");
+    shorten.addEventListener("click", () => {
+      window.location.href = "/shorten";
+    })
+    contact.addEventListener("click", () => {
+      window.open("https://github.com/hcandar");
+    })

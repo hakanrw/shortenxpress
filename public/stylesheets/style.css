@@ -1,3 +1,9 @@
+html {
+  background-color: whitesmoke;
+}
+
+* { box-sizing: border-box; }
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -5,4 +11,55 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+#main {
+  position: relative;
+  color: green;
+  max-width: 400px;
+  min-height: 400px;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+#torso {
+  width: fit-content;
+  margin: auto;
+}
+
+input {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: green;
+}
+
+input[type="button"]:hover {
+  cursor: pointer;
+}
+
+input[hidden] {
+  display: none;
+}
+
+input:active {
+  background-color: darkgreen;
+}
+
+.topleft {
+  position: absolute;
+  width: 40px;
+  height: 35px;
+  color: white;
+  top: 15px;
 }

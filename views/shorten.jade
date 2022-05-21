@@ -3,18 +3,24 @@ extends layout
 block content
   h1 shorten
   p shorten your URLs here
+  input(class='topleft' value='<' type='button' id='back')
   input(type='text' id='url' placeholder='url to shorten')
   input(type='button' id='button' value='shorten')
   p(id='message') 
   input(type='button' id='copy', hidden value='copy link')
 
   script. 
+    const back = document.getElementById("back");
+    const urlInput = document.getElementById("url");
     const button = document.getElementById("button");
     const message = document.getElementById("message");
-    const urlInput = document.getElementById("url");
     let copy = document.getElementById("copy");
+    
+    back.addEventListener("click", () => {
+      window.location.href = "/";
+    });
 
-    button.addEventListener("click", () => {
+    const shortenFn = () => {
       let newcopy = copy.cloneNode(true);
       copy.parentNode.replaceChild(newcopy, copy);
       copy = newcopy;
@@ -28,7 +34,19 @@ block content
         headers: {
           'Content-Type': 'application/json'
         },
-      }).then(response => response.json())
+      }).then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        
+        let whatis = {
+          400: "bad request",
+          404: "url not found",
+          500: "internal server error"
+        };
+
+        throw new Error(`error ${response.status}: ${whatis[response.status] || "something went wrong"}`);
+      })
         .then(json => {
           console.log(json);
           let finalUrl = `http://${window.location.host}/${json.short}`;
@@ -43,4 +61,9 @@ block content
           console.log('request failed', err);
           message.innerHTML = "request failed.";
         })
+    };
+
+    button.addEventListener("click", shortenFn);
+    urlInput.addEventListener("keyup", () => {
+      if (event.keyCode === 13) shortenFn();
     });
